@@ -9,18 +9,18 @@ internal class Program
     static async Task Main(string[] args)
     {
         var apiKey = GetApiKey(args);
-        
-        await DirectVersionUsingCompatibilityWithOpenAI.RunScenarios(withApiKey: apiKey);
+
+        //await DirectVersionUsingCompatibilityWithOpenAI.RunScenarios(withApiKey: apiKey);
         await PlayingWithGeminiAI.RunScenarios(withApiKey: apiKey);
-        await OpenAiCompatibilityUsingMsExtAi.RunScenarios(withApiKey: apiKey);
+        //await OpenAiCompatibilityUsingMsExtAi.RunScenarios(withApiKey: apiKey);
     }
 
     private static string GetApiKey(string[] args)
     {
-        if(args.Length == 1) return args[0];
+        if (args.Length == 1) return args[0];
 
         var maybeApiKeySetAsEnvironmentVariable = Environment.GetEnvironmentVariable("GEMINI_API_KEY");
-        if(!string.IsNullOrEmpty(maybeApiKeySetAsEnvironmentVariable)) return maybeApiKeySetAsEnvironmentVariable;
+        if (!string.IsNullOrEmpty(maybeApiKeySetAsEnvironmentVariable)) return maybeApiKeySetAsEnvironmentVariable;
 
         return PromptForUserInput(
             withPromptingUserMessage: "Please enter your Gemini API key",
@@ -40,7 +40,7 @@ internal class Program
             {
                 apiKeyTypingBuilder.Append(key.KeyChar);
 
-                if(shouldHideWhatUserTypesIn)
+                if (shouldHideWhatUserTypesIn)
                     Console.Write("*");
             }
         } while (key.Key != ConsoleKey.Enter);

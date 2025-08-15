@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using OpenTelemetry.Logs;
+
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 
@@ -72,7 +74,9 @@ internal class OpenAiCompatibilityUsingMsExtAi
         LoggerFactory.Create(builder =>
         {
             builder.SetMinimumLevel(LogLevel.Debug);
-            builder.AddConsole();
+            builder.AddOpenTelemetry(o => {
+                o.AddOtlpExporter();
+            });
         });
 
     private static void PrintMessageFromAiAssistant(string message)

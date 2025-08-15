@@ -37,7 +37,7 @@ internal static class ToolsThatCanBeInvokedByLLMs
     public sealed record OrderRequestedToBePrinted(string OrderId, OrderStatus Status, DateTime EstimatedDeliveryDate, decimal TotalAmount, short NumberOfItemsPresentInOrder);
 
     [Description("Order to Cancel")]
-    public sealed record OrderRequestedToBeCancelled(string OrderId, short NumberOfItemsPresentInOrder);
+    public sealed record OrderRequestedToBeCancelled(string OrderId, OrderStatus Status, short NumberOfItemsPresentInOrder);
 
     [Description("Retrieve information about an Order")]
     public static string GetOrderInformation([Description("Number of the Order you want to get information about")] string orderNumber)
@@ -105,8 +105,8 @@ internal static class ToolsThatCanBeInvokedByLLMs
 
     private static string TryToCancelOrder(OrderRequestedToBeCancelled orderToCancel)
     {
-        if(orderToCancel.NumberOfItemsPresentInOrder > 0)
-            return "ERROR: Order cannot be cancelled because of it has details already";
+        if (orderToCancel.NumberOfItemsPresentInOrder > 0)
+            return $"ERROR: Order cannot be cancelled because of it has {orderToCancel.NumberOfItemsPresentInOrder} items, which have been prepped already to be sent";
 
         return "Order was cancelled successfully";
     }
